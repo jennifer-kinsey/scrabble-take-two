@@ -13,6 +13,10 @@ describe('numbers_to_words#letter_score') do
     expect(number.transform_number(10)).to(eq("ten"))
   end
 
+  it("returns the string 'thirteen' when passed the number 13") do
+    expect(number.transform_number(13)).to(eq("thirteen"))
+  end
+
   it("returns the string 'twenty' when passed the number 20") do
     expect(number.transform_number(20)).to(eq("twenty"))
   end
@@ -21,10 +25,24 @@ describe('numbers_to_words#letter_score') do
     expect(number.transform_number(25)).to(eq("twenty five"))
   end
 
-  xit("returns the string 'one hundred' when passed the number 100") do
+  it("returns the string 'ninety nine' when passed the number 99") do
+    expect(number.transform_number(99)).to(eq("ninety nine"))
+  end
+
+  it("returns the string 'one hundred' when passed the number 100") do
     expect(number.transform_number(100)).to(eq("one hundred"))
   end
 
+  it("returns the string 'three hundred' when passed the number 300") do
+    expect(number.transform_number(300)).to(eq("three hundred"))
+  end
 
+  it("returns the string 'five hundred fifty five' when passed the number 555") do
+    expect(number.transform_number(555)).to(eq("five hundred fifty five"))
+  end
+
+  it("returns the string 'nine hundred ninety nine' when passed the number 999") do
+    expect(number.transform_number(999)).to(eq("nine hundred ninety nine"))
+  end
 
 end

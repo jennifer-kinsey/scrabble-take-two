@@ -1,6 +1,11 @@
 class NumbersToWords
-  def transform_number(number)
-    ones_values = {
+  attr_reader :ones_values
+  attr_reader :teens_values
+  attr_reader :tens_values
+  attr_reader :exponential_values
+
+  def initialize
+    @ones_values = {
       0 => "",
       1 => "one",
       2 => "two",
@@ -13,7 +18,7 @@ class NumbersToWords
       9 => "nine",
     }
 
-    teens_values = {
+    @teens_values = {
       10 => "ten",
       11 => "eleven",
       12 => "twelve",
@@ -26,7 +31,7 @@ class NumbersToWords
       19 => "nineteen",
     }
 
-    tens_values = {
+    @tens_values = {
       2 => "twenty",
       3 => "thirty",
       4 => "fourty",
@@ -37,16 +42,48 @@ class NumbersToWords
       9 => "ninety",
     }
 
-    exponential_values = {
+
+    @exponential_values = {
       100 => "hundred",
       1000 => "thousand",
       1000000 => "million",
       1000000000 => "billion",
     }
+  end
+
+  def transform_number(number)
 
     number_word = ""
 
-    numbers = number.to_s.split(//).map{|num| num.to_i}
+    if number > 99
+      number_word = "#{one_hundred_to_nine_hundred(number)}#{one_to_ninetynine(number)}"
+    else
+      number_word = one_to_ninetynine(number)
+    end
+
+    number_word
+
+  end
+
+  def numbers_to_array (number)
+    number.to_s.split("").map{|num| num.to_i}
+  end
+
+  def one_to_ninetynine(number)
+
+    numbers = numbers_to_array(number)
+    number_word = ""
+
+    if numbers.length > 2
+      numbers = numbers.slice(-2,2)
+      number = numbers.join("").to_i
+      if number == 0
+        return
+      else
+        number_word.concat(" ")
+      end
+    end
+
 
     if number < 10
       number_word.concat(ones_values.fetch(numbers[-1]))
@@ -63,4 +100,15 @@ class NumbersToWords
     number_word
 
   end
+
+  def one_hundred_to_nine_hundred(number)
+    hundreds_place = numbers_to_array(number)[-3]
+    number_word = ""
+    if hundreds_place > 0
+      number_word = "#{ones_values.fetch(hundreds_place)} hundred"
+    end
+    number_word
+  end
+  
+
 end
