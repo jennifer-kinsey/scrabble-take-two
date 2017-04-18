@@ -1,5 +1,6 @@
 require "./numbers_to_words"
 require "rspec"
+require "pry"
 
 
 describe('numbers_to_words#letter_score') do
@@ -43,6 +44,14 @@ describe('numbers_to_words#letter_score') do
 
   it("returns the string 'nine hundred ninety nine' when passed the number 999") do
     expect(number.transform_number(999)).to(eq("nine hundred ninety nine"))
+  end
+
+  it("returns the string 'one thousand two hundred fifty five' when passed the number 1255") do
+    expect(number.transform_number(1255)).to(eq("one thousand two hundred fifty five"))
+  end
+
+  it("returns the string 'one thousand two hundred fifty five' when passed the number 34,657,879,000") do
+    expect(number.transform_number(34657879000)).to(eq("thirty four billion six hundred fifty seven million eight hundred seventy nine thousand"))
   end
 
 end

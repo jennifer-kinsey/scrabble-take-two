@@ -1,3 +1,5 @@
+require "pry"
+
 class NumbersToWords
   attr_reader :ones_values
   attr_reader :teens_values
@@ -44,28 +46,20 @@ class NumbersToWords
 
 
     @exponential_values = {
-      100 => "hundred",
-      1000 => "thousand",
-      1000000 => "million",
-      1000000000 => "billion",
+      "trillion" => 15,
+      "billion" => 12,
+      "million" => 9,
+      "thousand" => 6,
     }
   end
 
   def transform_number(number)
 
-    number_word = ""
-
-    if number > 99
-      number_word = "#{one_hundred_to_nine_hundred(number)}#{one_to_ninetynine(number)}"
-    else
-      number_word = one_to_ninetynine(number)
-    end
-
-    number_word
+    one_thousand_and_beyond(number)
 
   end
 
-  def numbers_to_array (number)
+  def numbers_to_array(number)
     number.to_s.split("").map{|num| num.to_i}
   end
 
@@ -109,6 +103,50 @@ class NumbersToWords
     end
     number_word
   end
-  
+
+  def one_to_999(number)
+    number_word = ""
+
+    if number == 0 || number == nil
+      return number_word
+    end
+
+    if number > 99
+      number_word = "#{one_hundred_to_nine_hundred(number)}#{one_to_ninetynine(number)}"
+    else
+      number_word = one_to_ninetynine(number)
+    end
+
+    number_word
+  end
+
+  def one_thousand_and_beyond(number)
+    number_word = ""
+
+    position_difference = numbers_to_array(number).length % 3
+
+    exponential_values.each_pair do |exponent, position|
+      position = -(position)
+
+      if position_difference == 0
+        exponential_number = numbers_to_array(number).slice(position, 3)
+        if exponential_number != nil
+          exponential_number = exponential_number.join.to_i
+          number_word.concat("#{one_to_999(exponential_number)} #{exponent} ")
+        end
+      elsif numbers_to_array(number).length + 1 == position.abs || numbers_to_array(number).length + 2 == position.abs
+        exponential_number = numbers_to_array(number).slice(0, position_difference)
+        exponential_number = exponential_number.join.to_i
+        number_word.concat("#{one_to_999(exponential_number)} #{exponent} ")
+        position_difference = 0
+      end
+
+    end
+
+    number_word.concat(one_to_999(number))
+
+    number_word.rstrip
+
+  end
 
 end
