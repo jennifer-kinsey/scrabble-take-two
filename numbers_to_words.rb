@@ -78,7 +78,6 @@ class NumbersToWords
       end
     end
 
-
     if number < 10
       number_word.concat(ones_values.fetch(numbers[-1]))
     elsif number < 20
@@ -120,6 +119,14 @@ class NumbersToWords
     number_word
   end
 
+  def number_to_word(number, exponent)
+    if number == 0 || number == nil
+      ""
+    else
+      "#{one_to_999(number)} #{exponent} "
+    end
+  end
+
   def one_thousand_and_beyond(number)
     number_word = ""
 
@@ -132,18 +139,18 @@ class NumbersToWords
         exponential_number = numbers_to_array(number).slice(position, 3)
         if exponential_number != nil
           exponential_number = exponential_number.join.to_i
-          number_word.concat("#{one_to_999(exponential_number)} #{exponent} ")
+          number_word.concat(number_to_word(exponential_number, exponent))
         end
       elsif numbers_to_array(number).length + 1 == position.abs || numbers_to_array(number).length + 2 == position.abs
         exponential_number = numbers_to_array(number).slice(0, position_difference)
         exponential_number = exponential_number.join.to_i
-        number_word.concat("#{one_to_999(exponential_number)} #{exponent} ")
+        number_word.concat(number_to_word(exponential_number, exponent))
         position_difference = 0
       end
 
     end
 
-    number_word.concat(one_to_999(number))
+    number_word.concat(one_to_999(number).lstrip)
 
     number_word.rstrip
 

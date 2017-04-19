@@ -34,6 +34,10 @@ describe('numbers_to_words#letter_score') do
     expect(number.transform_number(100)).to(eq("one hundred"))
   end
 
+  it("returns the string 'one hundred one' when passed the number 101") do
+    expect(number.transform_number(101)).to(eq("one hundred one"))
+  end
+
   it("returns the string 'three hundred' when passed the number 300") do
     expect(number.transform_number(300)).to(eq("three hundred"))
   end
@@ -52,6 +56,10 @@ describe('numbers_to_words#letter_score') do
 
   it("returns the string 'one thousand two hundred fifty five' when passed the number 34,657,879,000") do
     expect(number.transform_number(34657879000)).to(eq("thirty four billion six hundred fifty seven million eight hundred seventy nine thousand"))
+  end
+
+  it("returns the string 'one million one' when passed the number 1,000,001") do
+    expect(number.transform_number(1000001)).to(eq("one million one"))
   end
 
 end
