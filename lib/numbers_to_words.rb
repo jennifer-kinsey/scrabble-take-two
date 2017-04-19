@@ -53,10 +53,16 @@ class NumbersToWords
     }
   end
 
-  def transform_number(number)
+  def isNumber?(number)
+    !!number.match(/\A[0-9]+\z/)
+  end
 
-    one_thousand_and_beyond(number)
-
+  def transform_number(user_input)
+    if isNumber?(user_input)
+      one_thousand_and_beyond(user_input.to_i)
+    else
+      "Please enter a valid number."
+    end
   end
 
   def numbers_to_array(number)
